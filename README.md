@@ -240,12 +240,12 @@ Follow the steps below to run the project on your local machine.
 Make sure the following software is installed on your system:
 
 - **Java 17 or higher**
-  ```bash
+  ```bash (To check Version)
   java -version
   ```
 
 - **Maven**
-  ```bash
+  ```bash (To check Version)
   mvn -version
   ```
 
@@ -414,4 +414,14 @@ To stop the application, press:
 ```
 Ctrl + C
 ```
+## Sample API Outputs (Postman)
+
+Below are sample responses captured from Postman to demonstrate the working of the APIs.
+![11](https://github.com/user-attachments/assets/6278d7cd-03eb-4cd5-a74e-011dc71f2796)
+![22](https://github.com/user-attachments/assets/c4c979d5-5141-41f6-9148-3e8d3efec831)
+![33](https://github.com/user-attachments/assets/baf99828-6867-4228-bcde-c40c3552f40f)
+![44](https://github.com/user-attachments/assets/72ad3b47-1392-4c1f-ad27-5986016d258d)
+![55](https://github.com/user-attachments/assets/fb057889-ce4d-4081-98ec-fe995053f0dd)
+
+
 
