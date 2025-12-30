@@ -227,3 +227,191 @@ GET /projects/{id}/state?at=2025-12-30T16:10:00Z
 - The `at` query parameter is an ISO-8601 timestamp.
 - All audit events up to (and including) this timestamp are applied.
 - The response represents the exact historical state of the project at that moment.
+
+
+## Instructions to Run the Project Locally
+
+Follow the steps below to run the project on your local machine.
+
+---
+
+### 1. Prerequisites
+
+Make sure the following software is installed on your system:
+
+- **Java 17 or higher**
+  ```bash
+  java -version
+  ```
+
+- **Maven**
+  ```bash
+  mvn -version
+  ```
+
+- **PostgreSQL**
+  - PostgreSQL server should be running
+  - Default port: `5432`
+
+---
+
+### 2. Clone the Repository
+
+Clone the project from GitHub:
+
+```bash
+git clone <your-github-repo-url>
+cd backendassignment
+```
+
+---
+
+### 3. Create PostgreSQL Database
+
+Login to PostgreSQL using `psql` or pgAdmin and create a database:
+
+```sql
+CREATE DATABASE audit_db;
+```
+
+> You can use any database name, but ensure it matches the configuration in the next step.
+
+---
+
+### 4. Configure Application Properties
+
+Open the following file:
+
+```
+src/main/resources/application.properties
+```
+
+Update it with your PostgreSQL credentials:
+
+```properties
+spring.application.name=backendassignment
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/audit_db
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.open-in-view=false
+```
+
+> **Note:** Replace the username and password if your PostgreSQL credentials are different.
+
+---
+
+### 5. Build the Project
+
+From the project root directory, run:
+
+```bash
+mvn clean install
+```
+
+This command downloads dependencies and compiles the project.
+
+---
+
+### 6. Run the Application
+
+Start the Spring Boot application using:
+
+```bash
+mvn spring-boot:run
+```
+
+Alternatively, you can run the main class directly:
+
+```
+BackendAssignmentApplication.java
+```
+
+---
+
+### 7. Verify Application Startup
+
+If the application starts successfully, you should see logs similar to:
+
+```
+Tomcat started on port 8080
+Started BackendAssignmentApplication
+```
+
+This confirms the backend is running successfully.
+
+---
+
+### 8. Test APIs Using Postman
+
+You can use **Postman** or any REST client to test the APIs.
+
+#### Create a Project
+```http
+POST http://localhost:8080/projects/P1
+```
+
+**Request Body**
+```json
+{
+  "price": 100,
+  "status": "draft"
+}
+```
+
+---
+
+#### Update Project (Partial Update / Add New Fields)
+```http
+PATCH http://localhost:8080/projects/P1
+```
+
+**Request Body**
+```json
+{
+  "price": 120,
+  "category": "electronics"
+}
+```
+
+---
+
+#### Fetch Full Change History
+```http
+GET http://localhost:8080/projects/P1/history
+```
+
+---
+
+#### Reconstruct Project State at a Given Time
+```http
+GET http://localhost:8080/projects/P1/state?at=2025-12-30T16:10:00Z
+```
+
+---
+
+### 9. Verify Data in Database (Optional)
+
+You can verify stored data directly in PostgreSQL:
+
+```sql
+SELECT * FROM projects;
+SELECT * FROM audit_events;
+```
+
+This helps confirm that both the current state and the audit history are stored correctly.
+
+---
+
+### 10. Stop the Application
+
+To stop the application, press:
+
+```
+Ctrl + C
+```
+
